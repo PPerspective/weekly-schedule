@@ -1,132 +1,145 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Weekly Planner (Mon–Fri)</title>
+  <title>7-Day Weekly Planner</title>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
-    :root {
-      --bg: #f9f9f9;
-      --text: #111;
-      --card: #ffffff;
-      --border: #ccc;
-      --highlight: #f0f0f0;
-    }
-    body.dark {
-      --bg: #1e1e1e;
-      --text: #f0f0f0;
-      --card: #2b2b2b;
-      --border: #444;
-      --highlight: #333;
-    }
-
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      background: #f9f9f9;
+      color: #111;
       padding: 20px;
       transition: all 0.3s ease;
     }
     h1 {
       text-align: center;
     }
-    button {
-      margin: 10px 5px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
     #controls {
       text-align: center;
+      margin-bottom: 15px;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      background: var(--card);
+      background: #ffffff;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
-      color: var(--text);
     }
     th, td {
-      border: 1px solid var(--border);
-      padding: 10px;
+      border: 1px solid #ccc;
+      padding: 5px;
       vertical-align: top;
+      text-align: center;
     }
     th {
-      background: var(--highlight);
+      background: #f0f0f0;
+    }
+    select, input[type="text"], textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 4px;
+      margin-bottom: 4px;
+      font-family: 'Segoe UI', sans-serif;
     }
     textarea {
-      width: 100%;
-      height: 80px;
-      border: none;
-      resize: none;
-      background: inherit;
-      color: var(--text);
-      font-family: 'Segoe UI', sans-serif;
+      height: 50px;
+      resize: vertical;
+    }
+    .highlight {
+      border: 2px solid #f39c12;
+      background: #fff8e1;
     }
   </style>
 </head>
 <body>
 
-<h1>Weekly Planner (Mon–Fri)</h1>
+<h1>7-Day Weekly Planner</h1>
 
 <div id="controls">
-  <button onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
-  <button onclick="downloadImage()">📸 Save as Image</button>
+  <button onclick="toggleHighlight()">🌟 Highlight Selected</button>
+  <button onclick="saveAsImage()">📸 Save as Image</button>
+  <button onclick="exportToText()">📤 Export Table as Text</button>
 </div>
 
 <div id="planner">
   <table>
-    <tr>
-      <th>Time</th>
-      <th>Activity</th>
-      <th>Mon</th>
-      <th>Tue</th>
-      <th>Wed</th>
-      <th>Thu</th>
-      <th>Fri</th>
-    </tr>
-    <tr>
-      <td>07:00 – 09:00</td><td>Breakfast + Exercise</td>
-      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
-    </tr>
-    <tr>
-      <td>10:00 – 11:00</td><td>Work Session 1</td>
-      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
-    </tr>
-    <tr>
-      <td>12:00 – 13:00</td><td>Lunch / Walk</td>
-      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
-    </tr>
-    <tr>
-      <td>14:00 – 16:00</td><td>Work Session 2</td>
-      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
-    </tr>
-    <tr>
-      <td>16:00 – 18:00</td><td>Project Focus</td>
-      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
-    </tr>
-    <tr>
-      <td>18:00 – 19:00</td><td>Dinner / Rest</td>
-      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
-    </tr>
-    <tr>
-      <td>20:00 – 22:00</td><td>Chinese Learning / Project</td>
-      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
-    </tr>
-    <tr>
-      <td>23:00</td><td>Wind down / Reflect</td>
-      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
-    </tr>
+    <thead>
+      <tr>
+        <th>Monday</th><th>Tuesday</th><th>Wednesday</th>
+        <th>Thursday</th><th>Friday</th><th>Saturday</th><th>Sunday</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 8 rows -->
+      <!-- Each <tr> = 1 time block row -->
+      <!-- Each <td> = one day's slot with time + category + details -->
+      <!-- Total: 8 rows * 7 days = 56 editable blocks -->
+      <!-- Time block row structure -->
+      <!-- You can loop this structure via server or generate dynamically with JS -->
+""" + "\n".join([
+    "      <tr>" + "\n" + "".join([
+        """        <td>
+          <input type="text" placeholder="00:00 - 00:00" />
+          <select>
+            <option value="">Choose Activity</option>
+            <optgroup label="Meal">
+              <option>Breakfast</option>
+              <option>Lunch</option>
+              <option>Dinner</option>
+            </optgroup>
+            <optgroup label="Exercise">
+              <option>Stretch</option>
+              <option>Cardio</option>
+              <option>Workout</option>
+            </optgroup>
+            <optgroup label="Work">
+              <option>Focus Work</option>
+              <option>Admin Task</option>
+            </optgroup>
+            <optgroup label="Project">
+              <option>Canform 3D</option>
+              <option>52Wealth</option>
+              <option>LINE Sticker</option>
+            </optgroup>
+            <optgroup label="Study">
+              <option>Chinese</option>
+              <option>Reading</option>
+            </optgroup>
+            <optgroup label="Rest">
+              <option>Nap</option>
+              <option>Wind down</option>
+            </optgroup>
+            <optgroup label="Freetime">
+              <option>Game</option>
+              <option>Watch</option>
+            </optgroup>
+          </select>
+          <textarea placeholder="Details..."></textarea>
+        </td>
+        """ for _ in range(7)
+    ]) + "\n      </tr>" for _ in range(8)
+]) + """
+    </tbody>
   </table>
 </div>
 
 <script>
-  function toggleDarkMode() {
-    document.body.classList.toggle("dark");
+  function toggleHighlight() {
+    const cells = document.querySelectorAll("td");
+    cells.forEach(cell => {
+      if (cell.contains(document.activeElement)) {
+        cell.classList.toggle("highlight");
+      }
+    });
   }
 
-  function downloadImage() {
+  function saveAsImage() {
     const planner = document.getElementById("planner");
     html2canvas(planner).then(canvas => {
       const link = document.createElement("a");
@@ -134,6 +147,28 @@
       link.href = canvas.toDataURL();
       link.click();
     });
+  }
+
+  function exportToText() {
+    let output = "";
+    const rows = document.querySelectorAll("tbody tr");
+    rows.forEach((row, i) => {
+      const cells = row.querySelectorAll("td");
+      output += `⏱️ Block ${i + 1}\\n`;
+      cells.forEach((cell, j) => {
+        const time = cell.querySelector("input")?.value || "";
+        const activity = cell.querySelector("select")?.value || "";
+        const details = cell.querySelector("textarea")?.value || "";
+        const day = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][j];
+        output += `📅 ${day}: [${time}] ${activity} - ${details}\\n`;
+      });
+      output += "\\n";
+    });
+    const blob = new Blob([output], { type: "text/plain;charset=utf-8" });
+    const link = document.createElement("a");
+    link.download = "weekly_planner_export.txt";
+    link.href = URL.createObjectURL(blob);
+    link.click();
   }
 </script>
 
