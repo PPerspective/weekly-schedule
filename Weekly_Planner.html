@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weekly Planner (Mon–Fri)</title>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    :root {
+      --bg: #f9f9f9;
+      --text: #111;
+      --card: #ffffff;
+      --border: #ccc;
+      --highlight: #f0f0f0;
+    }
+    body.dark {
+      --bg: #1e1e1e;
+      --text: #f0f0f0;
+      --card: #2b2b2b;
+      --border: #444;
+      --highlight: #333;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+    h1 {
+      text-align: center;
+    }
+    button {
+      margin: 10px 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #controls {
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      color: var(--text);
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      vertical-align: top;
+    }
+    th {
+      background: var(--highlight);
+    }
+    textarea {
+      width: 100%;
+      height: 80px;
+      border: none;
+      resize: none;
+      background: inherit;
+      color: var(--text);
+      font-family: 'Segoe UI', sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Weekly Planner (Mon–Fri)</h1>
+
+<div id="controls">
+  <button onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+  <button onclick="downloadImage()">📸 Save as Image</button>
+</div>
+
+<div id="planner">
+  <table>
+    <tr>
+      <th>Time</th>
+      <th>Activity</th>
+      <th>Mon</th>
+      <th>Tue</th>
+      <th>Wed</th>
+      <th>Thu</th>
+      <th>Fri</th>
+    </tr>
+    <tr>
+      <td>07:00 – 09:00</td><td>Breakfast + Exercise</td>
+      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
+    </tr>
+    <tr>
+      <td>10:00 – 11:00</td><td>Work Session 1</td>
+      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
+    </tr>
+    <tr>
+      <td>12:00 – 13:00</td><td>Lunch / Walk</td>
+      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
+    </tr>
+    <tr>
+      <td>14:00 – 16:00</td><td>Work Session 2</td>
+      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
+    </tr>
+    <tr>
+      <td>16:00 – 18:00</td><td>Project Focus</td>
+      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
+    </tr>
+    <tr>
+      <td>18:00 – 19:00</td><td>Dinner / Rest</td>
+      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
+    </tr>
+    <tr>
+      <td>20:00 – 22:00</td><td>Chinese Learning / Project</td>
+      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
+    </tr>
+    <tr>
+      <td>23:00</td><td>Wind down / Reflect</td>
+      <td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td>
+    </tr>
+  </table>
+</div>
+
+<script>
+  function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+  }
+
+  function downloadImage() {
+    const planner = document.getElementById("planner");
+    html2canvas(planner).then(canvas => {
+      const link = document.createElement("a");
+      link.download = "weekly_planner.png";
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  }
+</script>
+
+</body>
+</html>
